@@ -1,3 +1,6 @@
 ag-eberswalde.brandenburg.de
 wrong.domain.cn
 ag-potsdam.brandenburg.de
+brandenburg.de
+abfalldaten.brandenburg.de
+antikorruption.brandenburg.de

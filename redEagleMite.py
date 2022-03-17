@@ -15,23 +15,25 @@ if __name__ == "__main__":
     dns_domains = open(sys.argv[1], "r").read().splitlines()
     outfile = "final_domains.txt"
 
-    # domain folgen
+    # domains folgen
+    finaldoms = set()
     for dom in dns_domains:
-      print(f"{dom} -> ", end="")
       for prot in ["http", "https"]:
+        print(f"{prot}://{dom} -> ", end="")
         try:
           response = requests.get(prot + "://" + dom)
           if response.status_code == 200:
             finaldomain = urlparse(response.url).hostname
-            # warum ist der Hostname doppelt?
             print(finaldomain)
-            with open(outfile, mode='a') as f:
-              f.write(finaldomain)
-              f.close()
+            finaldoms.add(finaldomain)
         except:
           print("Oops, error")
 
 
     # ToDo: file uniq machen?
+    with open(outfile, mode='w') as f:
+      for dom in list(finaldoms):
+        f.write("%s\n" % dom)
+      f.close()
 
     exit(0)
