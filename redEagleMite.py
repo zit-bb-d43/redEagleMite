@@ -2,7 +2,6 @@ import requests
 # to extract domain
 from urllib.parse import urlparse
 import sys
-import datetime
 
 def help():
   print(f"usage: {sys.argv[1]} <filename>")
@@ -17,8 +16,9 @@ if __name__ == "__main__":
     bad_domainfile = "bad_domains.txt"
     outfile = "final_domains.txt"
 
-    # domains folgen
+    # domains in sets sammeln, um sie am Ende einfacher sortiert und unique in Datei zu schreiben
     finaldoms = set()
+    baddoms = set()
     for dom in dns_domains:
       for prot in ["http", "https"]:
         print(f"{prot}://{dom} -> ", end="")
@@ -29,17 +29,18 @@ if __name__ == "__main__":
             print(finaldomain)
             finaldoms.add(finaldomain)
           else:
-            with open(bad_domainfile, mode='a') as f:
-              f.write("%s %s\n" % dom, str(datetime.date.today()))
-              f.close()
+            baddoms.add(dom)
         except:
           print("Oops, error")
-          with open(bad_domainfile, mode='a') as f:
-            f.write("%s %s\n" % (dom, str(datetime.date.today())))
-            f.close()
+          baddoms.add(dom)
 
-
-    # ToDo: file uniq machen?
+    # unerreichbare Domains
+    with open(bad_domainfile, mode='w') as f:
+      for dom in list(baddoms):
+        f.write("%s\n" % dom)
+      f.close()
+      
+		# gute domains
     with open(outfile, mode='w') as f:
       for dom in list(finaldoms):
         f.write("%s\n" % dom)
