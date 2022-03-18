@@ -2,6 +2,7 @@ import requests
 # to extract domain
 from urllib.parse import urlparse
 import sys
+import datetime
 
 def help():
   print(f"usage: {sys.argv[1]} <filename>")
@@ -13,6 +14,7 @@ if __name__ == "__main__":
   else:
     # liest file mit Domains ein. Eine Domain pro Zeile
     dns_domains = open(sys.argv[1], "r").read().splitlines()
+    bad_domainfile = "bad_domains.txt"
     outfile = "final_domains.txt"
 
     # domains folgen
@@ -26,8 +28,15 @@ if __name__ == "__main__":
             finaldomain = urlparse(response.url).hostname
             print(finaldomain)
             finaldoms.add(finaldomain)
+          else:
+            with open(bad_domainfile, mode='a') as f:
+              f.write("%s %s\n" % dom, str(datetime.date.today()))
+              f.close()
         except:
           print("Oops, error")
+          with open(bad_domainfile, mode='a') as f:
+            f.write("%s %s\n" % (dom, str(datetime.date.today())))
+            f.close()
 
 
     # ToDo: file uniq machen?
