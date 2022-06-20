@@ -26,12 +26,13 @@ if __name__ == "__main__":
           response = requests.get(prot + "://" + dom)
           if response.status_code == 200:
             finaldomain = urlparse(response.url).hostname
-            print(finaldomain)
+            print("good: " + finaldomain)
             finaldoms.add(finaldomain)
           else:
+						print("bad" + responde.status_code)
             baddoms.add(dom)
-        except:
-          print("Oops, error")
+        except Exception as e:
+          print("Oops, error" + e)
           baddoms.add(dom)
 
     # unerreichbare Domains
