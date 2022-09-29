@@ -31,7 +31,7 @@ if __name__ == "__main__":
               print(f"good: {finaldomain}")
               finaldoms.add(finaldomain)
             else:
-              print("bad: {finaldomain} {response.status_code}")
+              print(f"bad: {finaldomain} {response.status_code}")
               baddoms.add(prot + dom)
         except Exception as e:
           print("Oops, error" + e)

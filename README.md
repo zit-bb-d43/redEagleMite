@@ -32,6 +32,9 @@ done
 # bereinigen
 sed -i -e 's/\.$//g' dns_domains.txt
 
+# evtl. kopieren
+tar cf - dns_domains.txt | ssh -o "ProxyCommand /usr/bin/nc --proxy PROXY:PROXYPORT %h %p" USER@TARGETHOST "tar xvf -"
+
 # durch redEagleMite drehen
 python .\redEagleMite.py .\dns_domains.txt
-```git push
+```
