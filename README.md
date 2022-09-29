@@ -18,6 +18,11 @@ So geht's:
 * alles durch redEagleMite schicken
 
 ```bash
+
+# domain.lst zusammentragen
+ssh NAMESERVER grep -R "^zone " /etc/named/* | grep -v arpa | awk '{print $2}' | sed 's/\"//g' > domains.lst
+
+
 # mit der Domainliste:
 for DOMAIN in $( cat domains.lst )
 do
