@@ -34,4 +34,4 @@ sed -i -e 's/\.$//g' dns_domains.txt
 
 # durch redEagleMite drehen
 python .\redEagleMite.py .\dns_domains.txt
-```
+```git push
