@@ -34,7 +34,7 @@ if __name__ == "__main__":
               print(f"bad: {dom} {response.status_code}")
               baddoms.add(prot + dom)
         except Exception as e:
-          print("Oops, error" + e)
+          print("Oops, error" + str(e))
           baddoms.add(prot + dom)
 
     # unerreichbare Domains
