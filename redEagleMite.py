@@ -20,20 +20,22 @@ if __name__ == "__main__":
     finaldoms = set()
     baddoms = set()
     for dom in dns_domains:
-      for prot in ["http", "https"]:
-        print(f"{prot}://{dom} -> ", end="")
+      for prot in ["http://", "https://"]:
+        print(f"{prot}{dom} -> ", end="")
         try:
-          response = requests.get(prot + "://" + dom)
-          if response.status_code == 200:
-            finaldomain = urlparse(response.url).hostname
-            print("good: " + finaldomain)
-            finaldoms.add(finaldomain)
-          else:
-						print("bad" + responde.status_code)
-            baddoms.add(dom)
+          # wenn dom noch nicht in finaldomain, abklopfen
+          if dom not in finaldoms:
+            response = requests.get(prot + dom)
+            if response.status_code == 200:
+              finaldomain = urlparse(response.url).hostname
+              print(f"good: {finaldomain}")
+              finaldoms.add(finaldomain)
+            else:
+              print("bad: {finaldomain} {response.status_code}")
+              baddoms.add(prot + dom)
         except Exception as e:
           print("Oops, error" + e)
-          baddoms.add(dom)
+          baddoms.add(prot + dom)
 
     # unerreichbare Domains
     with open(bad_domainfile, mode='w') as f:
@@ -41,10 +43,10 @@ if __name__ == "__main__":
         f.write("%s\n" % dom)
       f.close()
       
-		# gute domains
+    # gute domains
     with open(outfile, mode='w') as f:
       for dom in list(finaldoms):
         f.write("%s\n" % dom)
       f.close()
 
-    exit(0)
+  exit(0)
